@@ -9,7 +9,7 @@
 - **Dynamic resizing**: Automatically resizes the array as elements are added or removed.
 - **Memory management**: Handles memory allocation and deallocation.
 - **Element removal**: Supports removing elements by index or by value.
-
+- **Transfer data**: Transfer data from one cVec to another.
 ## Installation
 
 To use the `cVec` library, simply include the `cVec.h` file in your project and compile it with your source code.
@@ -42,6 +42,14 @@ cVec_remove_object_by_index(vec, 0); // Removes the first element
 ```c
 cVec_remove_object_by_argument(vec, value);
 ```
+# Transfer data
+```c
+// Erase data from vec_dest and transfer data from vec_source
+cVec_erase_transfer(vec_dest, vec_source);
+
+// Append data from vec_source to vec_dest, keeping existing data in vec_dest
+cVec_transfer(vec_dest, vec_source);
+````
 
 # Destroying the Vector
 ```c
