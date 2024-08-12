@@ -50,6 +50,32 @@ void test_cVec_remove_object_by_argument() {
     assert(vec->DATA[0] == &b);
     cVec_destroy(vec);
 }
+void test_cVec_transfer() {
+    cVec* vec1 = create_cVec();
+    cVec* vec2 = create_cVec();
+    int a = 5, b = 10;
+    cVec_add(vec1, &a);
+    cVec_add(vec2, &b);
+    cVec_transfer(vec1, vec2);
+    assert(vec1->size == 2);
+    assert(vec1->DATA[0] == &a);
+    assert(vec1->DATA[1] == &b);
+    cVec_destroy(vec1);
+    cVec_destroy(vec2);
+}
+
+void test_cVec_erase_transfer() {
+    cVec* vec1 = create_cVec();
+    cVec* vec2 = create_cVec();
+    int a = 5, b = 10;
+    cVec_add(vec1, &a);
+    cVec_add(vec2, &b);
+    cVec_erase_transfer(vec1, vec2);
+    assert(vec1->size == 1);
+    assert(vec1->DATA[0] == &b);
+    cVec_destroy(vec1);
+    cVec_destroy(vec2);
+}
 
 void cVec_run_test() {
     test_create_cVec();
@@ -57,5 +83,7 @@ void cVec_run_test() {
     test_cVec_remove_last();
     test_cVec_remove_object_by_index();
     test_cVec_remove_object_by_argument();
+    test_cVec_transfer();
+    test_cVec_erase_transfer();
     printf("%s", "all test passed");
 }

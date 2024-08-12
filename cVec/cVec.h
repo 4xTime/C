@@ -48,11 +48,14 @@ void cVec_remove_last(cVec* vec) {
 	}
 
 	memcpy_s(newData, (vec->size-1) * sizeof(void*), vec->DATA, (vec->size-1) * sizeof(void*));
+	realloc(vec, vec->size - 1*sizeof(void*));
 
 	free(vec->DATA);
 	vec->DATA = newData;
 	vec->size--;
-	if (vec->size == 0) { vec->DATA = NULL; }
+	if (vec->size == 0) {
+		vec->DATA = NULL;
+	}
 }
 
 void cVec_remove_object_by_index(cVec* vec,const int index) {
@@ -107,3 +110,34 @@ void cVec_remove_object_by_argument(cVec* vec,void* arg) {
 	cVec_destroy(index_vec);
 }
 
+void cVec_transfer(cVec* vec_dest, cVec* vec_source) {
+	void** new_data = (void**)malloc((vec_source->size + vec_dest->size) * sizeof(void*));
+	if (new_data == NULL) {
+		printf("%s", "Error->cVec_transfer");
+		return;
+	}
+	memcpy_s(new_data, vec_dest->size * sizeof(void*), vec_dest->DATA, vec_dest->size * sizeof(void*));
+
+	memcpy_s(new_data + vec_dest->size, vec_source->size * sizeof(void*), vec_source->DATA, vec_source->size * sizeof(void*));
+
+	free(vec_dest->DATA);
+
+	vec_dest->DATA = new_data;
+	vec_dest->size += vec_source->size;
+}
+
+//erase previous data and transfer new
+void cVec_erase_transfer(cVec* vec_dest, cVec* vec_source) {
+	if (vec_dest->size > 0) {
+		vec_dest->DATA = NULL;
+		vec_dest->size = 0;
+	}
+
+	vec_dest->DATA = (void**)malloc(vec_source->size * sizeof(void*));
+	if (vec_dest->DATA == NULL) {
+		printf("%s", "Error->cVec_transfer");
+		return;
+	}
+	memcpy_s(vec_dest->DATA, vec_source->size * sizeof(void*), vec_source->DATA, vec_source->size * sizeof(void*));
+	vec_dest->size += vec_source->size;
+}
