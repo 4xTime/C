@@ -19,5 +19,6 @@ void cVec_remove_object_by_argument(cVec* vec, void* arg);
 void cVec_erase_transfer(cVec* vec_dest, cVec* vec_source);
 void cVec_clear(cVec* vec);
 void cVec_resize(cVec* vec, size_t new_capacity);
+void cVec_swap(cVec* vec1, cVec* vec2);
 
 #endif // CVEC_H

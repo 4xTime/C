@@ -161,3 +161,17 @@ void cVec_resize(cVec* vec, size_t new_capacity) {
 	vec->DATA = newData;
 	vec->size = new_capacity;
 }
+
+void cVec_swap(cVec* vec1, cVec* vec2) {
+	if (!vec1 || !vec2) {
+		printf("Error: One or both vectors are NULL in cVec_swap.\n");
+		return;
+	}
+	void** temp_data = vec1->DATA;
+	vec1->DATA = vec2->DATA;
+	vec2->DATA = temp_data;
+
+	int temp_size = vec1->size;
+	vec1->size = vec2->size;
+	vec2->size = temp_size;
+}
